@@ -4,3 +4,7 @@ venv/
 
 # environment variables
 .env
+
+# suffixes
+*.iml
+*.xml
