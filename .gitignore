@@ -1,0 +1,6 @@
+# directories
+datasets/
+venv/
+
+# environment variables
+.env
