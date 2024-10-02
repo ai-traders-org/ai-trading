@@ -1,4 +1,4 @@
-# AI Trading Bot
+# AI Trading
 
 ## Project Description
 
@@ -81,7 +81,7 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 
 ## Usage
 
-### Running the bot
+### Running the script
 
 1. **Start the services locally:**
 
@@ -100,11 +100,11 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 
 ### Jupyter Notebooks
 
-Explore the provided Jupyter notebooks in the `notebooks/` directory for examples and experiments related to the bot's functionality.
+Explore the provided Jupyter notebooks in the `notebooks/` directory for examples and experiments.
 
 ## Contributing
 
-We welcome contributions to improve AI Trading Bot! To contribute:
+We welcome contributions to improve AI Trading! To contribute:
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
