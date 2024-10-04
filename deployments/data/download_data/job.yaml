@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-data-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: download-data-container
+        image: download-data-app:latest
+        imagePullPolicy: Never # Wymusza użycie lokalnego obrazu
+      restartPolicy: Never  # Job nie będzie próbował restartować kontenera

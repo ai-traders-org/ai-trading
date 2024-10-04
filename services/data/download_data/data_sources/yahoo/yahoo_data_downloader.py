@@ -2,7 +2,7 @@ import os
 
 import yfinance as yf
 
-from src.data.download_data.data_sources.data_downloader import DataDownloader
+from ..data_downloader import DataDownloader
 
 
 class YahooDataDownloader(DataDownloader):

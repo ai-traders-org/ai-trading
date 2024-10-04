@@ -1,6 +1,6 @@
 import yfinance as yf
 
-from src.data.download_data.data_sources.yahoo.yahoo_data_downloader import YahooDataDownloader
+from src.services.data.download_data.data_sources.yahoo.yahoo_data_downloader import YahooDataDownloader
 
 if __name__ == '__main__':
     yahoo_data_downloader = YahooDataDownloader

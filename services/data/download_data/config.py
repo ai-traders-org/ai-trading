@@ -1,4 +1,4 @@
-from common import project_dir
+import os
 
 DOWNLOAD_DATA_CONFIG = {
     'tickers': {
@@ -8,5 +8,5 @@ DOWNLOAD_DATA_CONFIG = {
         'start_date': '2024-01-01',
         'end_date': '2024-02-01',
     },
-    'save_dir': project_dir / 'resources' / 'datasets',
+    'save_dir': os.path.join('resources', 'datasets'),
 }

@@ -1,6 +1,6 @@
 from typing import List
 
-from src.data.download_data.data_sources.data_downloader import DataDownloader
+from data_sources.data_downloader import DataDownloader
 
 
 class DataDownloaderManager:
