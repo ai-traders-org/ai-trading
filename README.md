@@ -22,11 +22,14 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 
 ### Prerequisites
 
+#### Basic
 - Python 3.10+
 - pip (Python package installer)
+
+#### To run on cluster
 - Docker
 - Terraform
-- Kubernetes cluster (e.g., EKS, GKE, AKS)
+- Kubernetes cluster
 
 ### Installation Steps
 
@@ -88,14 +91,6 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
     ```bash
     python src/services/download_data.py
     # Repeat for other services if necessary
-    ```
-
-2. **Interact with the services using API endpoints:**
-
-    Use tools like `curl` or Postman to interact with the API endpoints provided by your services.
-
-    ```bash
-    curl http://localhost:5000/download
     ```
 
 ### Jupyter Notebooks

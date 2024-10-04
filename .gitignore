@@ -1,9 +1,9 @@
-# directories
-datasets/
-venv/
+# common directories
+resources/
 
-# environment variables
+# environment variables/directories
 .env
+venv/
 
 # suffixes
 *.iml
