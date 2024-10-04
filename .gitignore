@@ -9,3 +9,6 @@ venv/
 *.iml
 *.xml
 *.pyc
+
+# pycharm files
+.idea
