@@ -8,7 +8,7 @@ venv/
 # suffixes
 *.iml
 *.xml
-*.pyc
+#*.pyc
 
 # pycharm files
 .idea
