@@ -4,7 +4,7 @@
 eval $(minikube docker-env)
 
 # Przypisanie ścieżek do zmiennych
-DOCKERFILE_PATH="../../../services/data/download_data/Dockerfile"
+DOCKERFILE_PATH="./Dockerfile"
 PROJECT_PATH="../../../services/data/download_data"
 
 # Zbuduj obraz Dockerowy, używając zmiennych dla ścieżek
