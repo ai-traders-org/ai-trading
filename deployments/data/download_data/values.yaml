@@ -1,0 +1,19 @@
+accessKey: minio-access-key
+secretKey: minio-secret-key
+
+service:
+  type: NodePort
+
+resources:
+  requests:
+    memory: 2Gi
+
+replicas: 2
+
+persistence:
+  enabled: true
+  size: 5Gi
+  accessMode: ReadWriteOnce
+  storageClass: standard
+
+volumesPerServer: 1
