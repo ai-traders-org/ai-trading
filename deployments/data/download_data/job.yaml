@@ -9,4 +9,15 @@ spec:
       - name: download-data-container
         image: download-data-app:latest
         imagePullPolicy: Never # Forces the use of a local image
+        env:
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-credentials # Odniesienie do sekreta
+              key: MINIO_ACCESS_KEY
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-credentials # Odniesienie do sekreta
+              key: MINIO_SECRET_KEY
       restartPolicy: Never # Job will not try to restart the container

@@ -25,6 +25,8 @@ class YahooDataDownloader(DataDownloader):
             region_name=MINIO_CONFIG['region_name']
         )
 
+        #TODO: define bucket from python code. maybe in upper class
+
     def download_data(self, ticker, start_date, end_date, *args, **kwargs) -> None:
         data = yf.download(ticker, start=start_date, end=end_date)
         data.drop('Adj Close', axis=1, inplace=True)
