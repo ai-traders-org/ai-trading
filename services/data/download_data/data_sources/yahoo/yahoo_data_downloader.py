@@ -5,7 +5,7 @@ from botocore.client import Config
 import yfinance as yf
 
 from ..data_downloader import DataDownloader
-from ...config import MINIO_CONFIG
+from ..minio_config import MINIO_CONFIG
 
 
 class YahooDataDownloader(DataDownloader):
@@ -15,7 +15,7 @@ class YahooDataDownloader(DataDownloader):
         super().__init__()
         self.datasets = {}
 
-        # Inicjalizacja klienta MinIO (S3)
+        # Initialize MinIO client (S3)
         self.s3_client = boto3.client(
             's3',
             endpoint_url=MINIO_CONFIG['endpoint_url'],
@@ -35,13 +35,13 @@ class YahooDataDownloader(DataDownloader):
         bucket_name = MINIO_CONFIG['bucket_name']
 
         for ticker, dataset in self.datasets.items():
-            # Konwersja datasetu do CSV
+            # Convert dataset to CSV
             csv_data = dataset.to_csv(index=False)
 
-            # Utworzenie ścieżki do pliku w bucketcie
+            # Creating a path to a file in the bucket
             save_path = os.path.join(save_dir, ticker + '.csv')
 
-            # Przesłanie danych do MinIO
+            # Sending data to MinIO
             self.s3_client.put_object(
                 Bucket=bucket_name,
                 Key=save_path,

@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Ustaw środowisko Dockera na Minikube
+DOCKERFILE_PATH="./deployments/data/download_data/Dockerfile"
+PROJECT_PATH="services/data/download_data"
+
+# Set Docker environment to Minikube
 eval $(minikube docker-env)
 
-# Przypisanie ścieżek do zmiennych
-DOCKERFILE_PATH="./Dockerfile"
-PROJECT_PATH="../../../services/data/download_data"
-
-# Zbuduj obraz Dockerowy, używając zmiennych dla ścieżek
+# Build a Docker image using variables for paths
 docker build -t download-data-app:latest -f $DOCKERFILE_PATH $PROJECT_PATH

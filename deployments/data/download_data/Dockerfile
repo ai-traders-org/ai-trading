@@ -1,14 +1,14 @@
-# Użyj obrazu z Pythonem jako podstawy
+# Use Python image as base
 FROM python:3.10-slim
 
-# Ustaw katalog roboczy
+# Set working directory
 WORKDIR /app
 
-# Skopiuj całą zawartość projektu do obrazu
+# Copy all project content to image
 COPY . .
 
-# Zainstaluj wymagania aplikacji
+# Install application requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ustaw domyślny punkt wejścia do uruchomienia aplikacji
+# Set default entry point to launch the application
 CMD ["python", "main.py"]

@@ -8,5 +8,5 @@ spec:
       containers:
       - name: download-data-container
         image: download-data-app:latest
-        imagePullPolicy: Never # Wymusza użycie lokalnego obrazu
-      restartPolicy: Never  # Job nie będzie próbował restartować kontenera
+        imagePullPolicy: Never # Forces the use of a local image
+      restartPolicy: Never # Job will not try to restart the container
