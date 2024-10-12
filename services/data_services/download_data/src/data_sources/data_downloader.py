@@ -2,7 +2,7 @@ class DataDownloader:
     source_name = None
 
     def __init__(self):
-        pass
+        self.datasets = {}
 
     def download_data(self, ticker, start_date, end_date, *args, **kwargs):
         raise NotImplementedError(f'Method {self.__class__.__name__}.download_data() not implemented!')
