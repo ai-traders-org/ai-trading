@@ -5,7 +5,7 @@
 - [Project Description](#project-description)
 - [Directory Structure](#directory-structure)
 - [Setup and Installation](#setup-and-installation)
-- [Usage](#usage)
+- [Usage locally](#usage-locally)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -83,16 +83,27 @@ services/
 2. **Create a virtual environment and activate it:**
 
     ```bash
-    ./ setup.sh
+    ./setup.sh
     ```
+   
+### Deploy Steps
 
-3. **Build Docker images for services:**
+1. **Setup cluster:**
 
     ```bash
-    ./deployments/SERVICE_DIR/update_docker_image.sh
+    ./infra/clusters/CLUSTER_NAME/start.sh
     ```
 
-4. **Deploy the infrastructure using Terraform:**
+2. **Setup minio:**
+
+    ```bash
+    ./infra/minio/install_minio.sh
+    ./infra/minio/set_minio_secrets.sh
+    ```
+
+3. **Deploy the infrastructure using Terraform:**
+
+   #TODO
 
     ```bash
     cd infra/terraform
@@ -101,21 +112,26 @@ services/
     terraform apply
     ```
 
+4. **Build Docker images for services:**
+
+    ```bash
+    ./deployments/SERVICE_DIR/update_docker_image.sh
+    ```
+
 5. **Deploy the services to Kubernetes:**
 
     ```bash
     ./deployments/SERVICE_DIR/run.sh
     ```
 
-## Usage
+## Usage locally
 
-### Running the script
+### Running the script locally
 
-1. **Start the services locally:**
+1. **Start the service locally:**
 
     ```bash
-    python src/services/download_data.py
-    # Repeat for other services if necessary
+    python3 services/SERVICE_DIR/main.py
     ```
 
 ### Jupyter Notebooks
