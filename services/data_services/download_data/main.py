@@ -1,6 +1,6 @@
-from config import DOWNLOAD_DATA_CONFIG
-from data_downloader_manager import DataDownloaderManager
-from data_sources.yahoo.yahoo_data_downloader import YahooDataDownloader
+from src.config import DOWNLOAD_DATA_CONFIG
+from src.data_downloader_manager import DataDownloaderManager
+from src.data_sources.yahoo.yahoo_data_downloader import YahooDataDownloader
 
 if __name__ == '__main__':
 
