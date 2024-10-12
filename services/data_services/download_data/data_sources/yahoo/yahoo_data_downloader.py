@@ -2,6 +2,7 @@ import os
 
 import boto3
 from botocore.client import Config
+from botocore.exceptions import ClientError
 import yfinance as yf
 
 from ..data_downloader import DataDownloader
@@ -25,7 +26,20 @@ class YahooDataDownloader(DataDownloader):
             region_name=MINIO_CONFIG['region_name']
         )
 
-        #TODO: define bucket from python code. maybe in upper class
+        # Ensure bucket exists or create it
+        self.bucket_name = MINIO_CONFIG['bucket_name']
+        self.ensure_bucket_exists(self.bucket_name)
+
+    def ensure_bucket_exists(self, bucket_name):
+        try:
+            # Check if the bucket exists by trying to list its contents
+            self.s3_client.head_bucket(Bucket=bucket_name)
+            print(f'Bucket "{bucket_name}" already exists.')
+        except ClientError:
+            # If the bucket does not exist, create it
+            print(f'Bucket "{bucket_name}" does not exist. Creating a new one.')
+            self.s3_client.create_bucket(Bucket=bucket_name)
+            print(f'Bucket "{bucket_name}" created.')
 
     def download_data(self, ticker, start_date, end_date, *args, **kwargs) -> None:
         data = yf.download(ticker, start=start_date, end=end_date)

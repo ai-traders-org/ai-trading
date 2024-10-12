@@ -1,9 +1,5 @@
 # AI Trading
 
-## Project Description
-
-AI Trading is a project aimed at creating a fully automated trading bot that utilizes machine learning algorithms to analyze market data and make trading decisions. The bot is designed to be highly modular, scalable, and easy to deploy on Kubernetes (k8s).
-
 ## Table of Contents
 
 - [Project Description](#project-description)
@@ -13,9 +9,53 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 - [Contributing](#contributing)
 - [License](#license)
 
-## Directory Structure
+## Project Description
 
-...
+The AI Trading project aims to create an assistant that will analyze market data, identify patterns and dependencies, and notify users when a significant relationship is detected.
+In a potential next phase, the system could be connected via API to develop an automated trading bot.
+The bot is designed to be highly modular, scalable, and easy to deploy on Kubernetes (k8s).
+
+## Directory Structure
+```
+ai-trading/
+│
+├── deployments/                        # Kubernetes deployment files
+│   ├── data_services/                  # Deployment for data services
+│   │   ├── Dockerfile
+│   │   ├── job.yaml
+│   │   ├── run.sh
+│   │   └── update_docker_image.sh
+│   └── other_service/                  # Additional services can be added here
+│       ├── Dockerfile
+│       ├── job.yaml
+│       ├── run.sh
+│       └── update_docker_image.sh
+│
+├── infra/                              # Infrastructure-related files
+│   ├── minikube/                       # Scripts for managing Minikube
+│   │   ├── restart_minikube.sh
+│   │   └── start_minikube.sh
+│   ├── minio/                          # Setup and management scripts for MinIO
+│   │   ├── delete_minio.sh
+│   │   ├── forward_minio.sh
+│   │   ├── install_minio.sh
+│   │   └── set_minio_secrets.sh
+│   └── terraform/                      # Terraform files for infrastructure provisioning
+│
+├── services/                           # Microservices source code
+│   ├── data_services/                  # Data service to download and manage data
+│   │   ├── download_data/
+│   │   │   ├── main.py
+│   │   │   ├── requirements.txt
+│   │   │   └── ...
+│   │   └── other_data_service/
+│   │       ├── main.py
+│   │       ├── requirements.txt
+│   │       └── ...
+│   └── other_services/                  # Future services can be added here
+│
+└── tests/                              # Unit and integration tests
+```
 
 
 ## Setup and Installation
@@ -29,7 +69,7 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 #### To run on cluster
 - Docker
 - Terraform
-- Kubernetes cluster
+- Kubernetes cluster (`minio` to run local or other cluster to run on the cloud)
 
 ### Installation Steps
 
@@ -43,24 +83,17 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
 2. **Create a virtual environment and activate it:**
 
     ```bash
-    python -m venv venv
-    source venv/bin/activate
+    ./ setup.sh
     ```
 
-3. **Install the required dependencies:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. **Build Docker images for services:**
+3. **Build Docker images for services:**
 
     ```bash
     docker build -t your-docker-repo/data-service -f Dockerfile .
     # Repeat for other services if necessary
     ```
 
-5. **Deploy the infrastructure using Terraform:**
+4. **Deploy the infrastructure using Terraform:**
 
     ```bash
     cd terraform
@@ -69,17 +102,11 @@ AI Trading is a project aimed at creating a fully automated trading bot that uti
     terraform apply
     ```
 
-6. **Deploy the services to Kubernetes:**
+5. **Deploy the services to Kubernetes:**
 
     ```bash
     kubectl apply -f deployments/....yaml
     # Repeat for other service deployment files if necessary
-    ```
-
-   **OR run this command:**
-
-    ```bash
-    ./setup.sh
     ```
 
 ## Usage
