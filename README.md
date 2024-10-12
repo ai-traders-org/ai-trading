@@ -52,7 +52,34 @@ ai-trading/
 │   │       ├── main.py
 │   │       ├── requirements.txt
 │   │       └── ...
-│   └── other_services/                  # Future services can be added here
+│   ├── model_services/                 # Model services
+│   │   ├── sentiment_analysis/
+│   │   │   ├── llama/
+│   │   │   │   ├── main.py
+│   │   │   │   ├── requirements.txt
+│   │   │   │   └── ...
+│   │   │   └── other_sentiment_model/
+│   │   │       ├── main.py
+│   │   │       ├── requirements.txt
+│   │   │       └── ...
+│   │   ├── time_series/
+│   │   │   ├── linear_regression/
+│   │   │   │   ├── main.py
+│   │   │   │   ├── requirements.txt
+│   │   │   │   └── ...
+│   │   │   ├── lstm/
+│   │   │   │   ├── main.py
+│   │   │   │   ├── requirements.txt
+│   │   │   │   └── ...
+│   │   │   └── other_time_series_model/
+│   │   │       ├── main.py
+│   │   │       ├── requirements.txt
+│   │   │       └── ...
+│   │   └── other_model_service/
+│   │       ├── main.py
+│   │       ├── requirements.txt
+│   │       └── ...
+│   └── other_services/                 # Future services can be added here
 │
 └── tests/                              # Unit and integration tests
 ```
