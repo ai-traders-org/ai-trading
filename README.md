@@ -20,16 +20,7 @@ The bot is designed to be highly modular, scalable, and easy to deploy on Kubern
 ai-trading/
 │
 ├── deployments/                        # Kubernetes deployment files
-│   ├── data_services/                  # Deployment for data services
-│   │   ├── Dockerfile
-│   │   ├── job.yaml
-│   │   ├── run.sh
-│   │   └── update_docker_image.sh
-│   └── other_service/                  # Additional services can be added here
-│       ├── Dockerfile
-│       ├── job.yaml
-│       ├── run.sh
-│       └── update_docker_image.sh
+│   └── ...
 │
 ├── infra/                              # Infrastructure-related files
 │   ├── minikube/                       # Scripts for managing Minikube
@@ -43,47 +34,29 @@ ai-trading/
 │   └── terraform/                      # Terraform files for infrastructure provisioning
 │
 ├── services/                           # Microservices source code
-│   ├── data_services/                  # Data service to download and manage data
-│   │   ├── download_data/
-│   │   │   ├── main.py
-│   │   │   ├── requirements.txt
-│   │   │   └── ...
-│   │   └── other_data_service/
-│   │       ├── main.py
-│   │       ├── requirements.txt
-│   │       └── ...
-│   ├── model_services/                 # Model services
-│   │   ├── sentiment_analysis/
-│   │   │   ├── llama/
-│   │   │   │   ├── main.py
-│   │   │   │   ├── requirements.txt
-│   │   │   │   └── ...
-│   │   │   └── other_sentiment_model/
-│   │   │       ├── main.py
-│   │   │       ├── requirements.txt
-│   │   │       └── ...
-│   │   ├── time_series/
-│   │   │   ├── linear_regression/
-│   │   │   │   ├── main.py
-│   │   │   │   ├── requirements.txt
-│   │   │   │   └── ...
-│   │   │   ├── lstm/
-│   │   │   │   ├── main.py
-│   │   │   │   ├── requirements.txt
-│   │   │   │   └── ...
-│   │   │   └── other_time_series_model/
-│   │   │       ├── main.py
-│   │   │       ├── requirements.txt
-│   │   │       └── ...
-│   │   └── other_model_service/
-│   │       ├── main.py
-│   │       ├── requirements.txt
-│   │       └── ...
-│   └── other_services/                 # Future services can be added here
+│   └── ...
 │
 └── tests/                              # Unit and integration tests
 ```
 
+Every service in `deployment/` have structure like this:
+```
+deployments/
+   └── example_service/
+       ├── Dockerfile
+       ├── job.yaml
+       ├── run.sh
+       └── update_docker_image.sh
+```
+
+Every service in `services/` have structure like this:
+```
+services/
+    └── example_service/                
+        ├── main.py
+        ├── requirements.txt
+        └── src/
+```
 
 ## Setup and Installation
 
@@ -116,14 +89,13 @@ ai-trading/
 3. **Build Docker images for services:**
 
     ```bash
-    docker build -t your-docker-repo/data-service -f Dockerfile .
-    # Repeat for other services if necessary
+    ./deployments/SERVICE_DIR/update_docker_image.sh
     ```
 
 4. **Deploy the infrastructure using Terraform:**
 
     ```bash
-    cd terraform
+    cd infra/terraform
     terraform init
     terraform plan
     terraform apply
@@ -132,8 +104,7 @@ ai-trading/
 5. **Deploy the services to Kubernetes:**
 
     ```bash
-    kubectl apply -f deployments/....yaml
-    # Repeat for other service deployment files if necessary
+    ./deployments/SERVICE_DIR/run.sh
     ```
 
 ## Usage

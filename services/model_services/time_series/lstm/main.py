@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from torch.utils.data import DataLoader, TensorDataset
 
-from lstm_model import LSTMModel
-from utils import create_sequences
+from src.lstm_model import LSTMModel
+from src.utils import create_sequences
 
 COLUMN_TO_PREDICT = 'Close'
 
