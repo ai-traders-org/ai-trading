@@ -18,6 +18,16 @@ spec:
         - name: MINIO_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: minio-credentials # Odniesienie do sekreta
+              name: minio-credentials
               key: MINIO_SECRET_KEY
+        - name: MINIO_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: minio-credentials
+              key: MINIO_ENDPOINT_URL
+        - name: MINIO_REGION_NAME
+          valueFrom:
+            secretKeyRef:
+              name: minio-credentials
+              key: MINIO_REGION_NAME
       restartPolicy: Never # Job will not try to restart the container

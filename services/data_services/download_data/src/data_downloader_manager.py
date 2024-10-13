@@ -6,7 +6,7 @@ from botocore.client import Config
 from botocore.exceptions import ClientError
 import pandas as pd
 
-from data_sources.data_downloader import DataDownloader
+from .data_sources.data_downloader import DataDownloader
 
 
 class DataDownloaderManager:
@@ -117,4 +117,9 @@ class DataDownloaderManager:
 
     @staticmethod
     def _save_dataframe_locally(df: pd.DataFrame, save_path: str) -> None:
+        # Ensure the directory exists
+        directory = os.path.dirname(save_path)
+        os.makedirs(directory, exist_ok=True)
+
+        # Save
         df.to_csv(save_path, index=False)

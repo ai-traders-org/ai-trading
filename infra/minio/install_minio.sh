@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # install minio
-helm install minio-release minio/minio -f ./deployments/infra/minio/values.yaml
+helm install minio-release minio/minio -f ./infra/minio/values.yaml
