@@ -1,6 +1,6 @@
 import argparse
 
-from src.download_data_config import DOWNLOAD_DATA_CONFIG
+from src.config import DOWNLOAD_DATA_CONFIG
 from src.data_downloader_manager import DataDownloaderManager
 from src.data_sources.yahoo.yahoo_data_downloader import YahooDataDownloader
 
