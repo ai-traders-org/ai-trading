@@ -122,4 +122,4 @@ class DataDownloaderManager:
         os.makedirs(directory, exist_ok=True)
 
         # Save
-        df.to_csv(save_path, index=False)
+        df.to_csv(save_path, index=True)
