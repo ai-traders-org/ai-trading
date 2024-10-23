@@ -2,6 +2,7 @@ import os
 
 import pandas as pd
 from sklearn.linear_model import LinearRegression
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import matplotlib.pyplot as plt
@@ -20,33 +21,28 @@ if __name__ == '__main__':
     tickers = experiment_config['tickers']
     target_ticker = experiment_config['target_ticker']
 
-    # Create an empty DataFrame to store combined data
-    combined_data = pd.DataFrame()
-
-    # Load and combine data from all tickers
+    # Load and combine data from all tickers using the list of tickers from the config
+    dfs = []
     for ticker in tickers:
         data_path = os.path.join(data_dir, f"{ticker}.csv")
-        df_data = pd.read_csv(data_path)
-        # Prefix each column with the ticker name to distinguish between them
-        df_data = df_data.add_prefix(f"{ticker}_")
-        if combined_data.empty:
-            combined_data = df_data
-        else:
-            combined_data = pd.merge(combined_data, df_data, left_index=True, right_index=True)
+        df_data = pd.read_csv(data_path).add_prefix(f"{ticker}_")
+        dfs.append(df_data)
+    combined_data = pd.concat(dfs, axis=1)
 
-    # Create lag features for the combined data based on the list of lags
-    for column in combined_data.columns:
-        for lag in days_lags:
-            combined_data[f'{column}_lag_{lag}'] = combined_data[column].shift(lag)
+    # Create lag features for all columns
+    lagged_features = []
+    for lag in days_lags:
+        lagged_data = combined_data.shift(lag).add_suffix(f'_lag_{lag}')
+        lagged_features.append(lagged_data)
 
-    # Remove empty values resulting from offsets
-    combined_data = combined_data.dropna()
+    # Combine original and lagged data
+    combined_data = pd.concat([combined_data] + lagged_features, axis=1).dropna()
 
     # Save the dates separately for later use
     dates = combined_data[f'{target_ticker}_{date_column_name}'].values
 
     # Remove date columns to avoid using them as features
-    combined_data = combined_data.drop(columns=[col for col in combined_data.columns if date_column_name in col])
+    combined_data = combined_data.loc[:, ~combined_data.columns.str.contains(date_column_name)]
 
     # Define the features (X) using lagged features and target variable (y) from BABA
     X_columns = [col for col in combined_data.columns if '_lag_' in col]
@@ -58,17 +54,17 @@ if __name__ == '__main__':
     X_train, X_test = X[:train_size], X[train_size:]
     y_train, y_test = y[:train_size], y[train_size:]
 
-    # Standardization of features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    # Define the pipeline for scaling and regression
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),
+        ('regressor', LinearRegression())
+    ])
 
-    # Linear regression model
-    model = LinearRegression()
-    model.fit(X_train_scaled, y_train)
+    # Fit the pipeline
+    pipeline.fit(X_train, y_train)
 
-    # Predictions on the test set
-    y_pred = model.predict(X_test_scaled)
+    # Make predictions
+    y_pred = pipeline.predict(X_test)
 
     # Model validation
     mse = mean_squared_error(y_test, y_pred)
