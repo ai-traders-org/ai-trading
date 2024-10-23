@@ -11,7 +11,7 @@ from src.config import TIME_SERIES_EXPERIMENT_CONFIG
 if __name__ == '__main__':
     # Get config values
     experiment_config = TIME_SERIES_EXPERIMENT_CONFIG
-    days_lag = experiment_config['days_lag']
+    days_lags = experiment_config['days_lags']
     target_column_name = experiment_config['target_column_name']
     date_column_name = experiment_config['date_column_name']
     train_split_ratio = experiment_config['train_split_ratio']
@@ -34,17 +34,18 @@ if __name__ == '__main__':
         else:
             combined_data = pd.merge(combined_data, df_data, left_index=True, right_index=True)
 
-    # Create lag features for the combined data
+    # Create lag features for the combined data based on the list of lags
     for column in combined_data.columns:
-        combined_data[f'{column}_lag_{days_lag}'] = combined_data[column].shift(days_lag)
+        for lag in days_lags:
+            combined_data[f'{column}_lag_{lag}'] = combined_data[column].shift(lag)
 
     # Remove empty values resulting from offsets
     combined_data = combined_data.dropna()
 
-    # **Save the dates separately for later use**
+    # Save the dates separately for later use
     dates = combined_data[f'{target_ticker}_{date_column_name}'].values
 
-    # **Remove date columns to avoid using them as features**
+    # Remove date columns to avoid using them as features
     combined_data = combined_data.drop(columns=[col for col in combined_data.columns if date_column_name in col])
 
     # Define the features (X) using lagged features and target variable (y) from BABA
@@ -92,4 +93,3 @@ if __name__ == '__main__':
     os.makedirs(results_dir, exist_ok=True)
     plot_path = os.path.join(results_dir, f'{target_ticker}_{target_column_name}.svg')
     plt.savefig(plot_path, format='svg', bbox_inches='tight')
-
