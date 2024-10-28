@@ -6,7 +6,6 @@
 - [Directory Structure](#directory-structure)
 - [Setup and Installation](#setup-and-installation)
 - [Usage locally](#usage-locally)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Project Description
@@ -23,29 +22,29 @@ ai-trading/
 │   └── ...
 │
 ├── infra/                              # Infrastructure-related files
-│   ├── minikube/                       # Scripts for managing Minikube
-│   │   ├── restart_minikube.sh
-│   │   └── start_minikube.sh
+│   ├── clusters/
+│   │   └── minikube/
+│   │       └── ...
 │   ├── minio/                          # Setup and management scripts for MinIO
-│   │   ├── delete_minio.sh
-│   │   ├── forward_minio.sh
-│   │   ├── install_minio.sh
-│   │   └── set_minio_secrets.sh
+│   │   └── ...
 │   └── terraform/                      # Terraform files for infrastructure provisioning
-│
+│       └── ...
+├── rd/                                 # Scripts for rd
+│   └── ...
 ├── services/                           # Microservices source code
 │   └── ...
 │
 └── tests/                              # Unit and integration tests
+    └── ...
 ```
 
-Every service in `deployment/` have structure like this:
+Every service (as `job`) in `deployment/` have structure like this:
 ```
 deployments/
    └── example_service/
        ├── Dockerfile
        ├── job.yaml
-       ├── run.sh
+       ├── run_job.sh
        └── update_docker_image.sh
 ```
 
@@ -53,9 +52,9 @@ Every service in `services/` have structure like this:
 ```
 services/
     └── example_service/                
+        ├── src/
         ├── main.py
-        ├── requirements.txt
-        └── src/
+        └── requirements.txt
 ```
 
 ## Setup and Installation
@@ -103,7 +102,7 @@ services/
 
 3. **Deploy the infrastructure using Terraform:**
 
-   #TODO
+   *TODO*
 
     ```bash
     cd infra/terraform
@@ -131,23 +130,43 @@ services/
 1. **Start the service locally:**
 
     ```bash
-    python3 services/SERVICE_DIR/main.py
+    python3 ./services/.../main.py --flag-if-needed
     ```
 
 ### Jupyter Notebooks
 
 Explore the provided Jupyter notebooks in the `notebooks/` directory for examples and experiments.
 
-## Contributing
 
-We welcome contributions to improve AI Trading! To contribute:
+## Services
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
+### data_services/download_data
+
+**Start the service locally:**
+
+    ```bash
+    python3 ./services/data_services/download_data/main.py --save-type local
+    ```
+
+### model_services/sentiment_analysis/llama
+
+*TODO*
+
+### model_services/time_series/linear_regression
+
+**Start the service locally:**
+
+    ```bash
+    python3 ./services/model_services/time_series/linear_regression/main.py
+    ```
+
+### model_services/time_series/lstm
+
+*TODO*
+
+### Jupyter Notebooks
+
+Explore the provided Jupyter notebooks in the `notebooks/` directory for examples and experiments.
 
 ## License
 
