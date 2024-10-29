@@ -7,6 +7,7 @@ from botocore.exceptions import ClientError
 import pandas as pd
 
 from .data_sources.data_downloader import DataDownloader
+from minio_manager import MinIOManager
 
 
 class DataDownloaderManager:
@@ -32,7 +33,6 @@ class DataDownloaderManager:
         }
         """
         self.downloaders = downloaders
-
         self.save_type = save_type
 
         if 'tickers' not in config or 'time_interval' not in config or 'save_dir' not in config:
@@ -46,20 +46,7 @@ class DataDownloaderManager:
         if self.save_type == 's3':
             if 'bucket_name' not in kwargs:
                 raise ValueError("Missing 'bucket_name' in kwargs for S3 initialization.")
-
-            # initialize MinIO client (S3)
-            self.s3_client = boto3.client(
-                's3',
-                endpoint_url=os.getenv('MINIO_ENDPOINT_URL', 'default-endpoint-url'),
-                aws_access_key_id=os.getenv('MINIO_ACCESS_KEY', 'default-access-key'),
-                aws_secret_access_key=os.getenv('MINIO_SECRET_KEY', 'default-secret-key'),
-                config=Config(signature_version='s3v4'),
-                region_name=os.getenv('MINIO_REGION_NAME', 'default-region-name'),
-            )
-
-            # ensure bucket exists or create it
-            self.bucket_name = kwargs['bucket_name']
-            self._ensure_bucket_exists(self.bucket_name)
+            self.minio_manager = MinIOManager(kwargs['bucket_name'])
 
     def execute_all(self) -> None:
         """
@@ -78,42 +65,17 @@ class DataDownloaderManager:
         if df is None or df.empty:
             raise ValueError(f"The DataFrame for ticker {ticker_name} is empty or None.")
 
-        # creating a path to a file in the bucket
         save_path = os.path.join(self.save_dir, ticker_name + '.csv')
 
         if self.save_type == 's3':
-            self._save_dataframe_on_minio(df=df, save_path=save_path)
-            print(f'Saved {ticker_name} data to bucket {self.bucket_name} as {save_path}')
+            self.minio_manager.save_dataframe(df, save_path)
+            print(f'Saved {ticker_name} data to bucket {self.minio_manager.bucket_name} as {save_path}')
         elif self.save_type == 'local':
             self._save_dataframe_locally(df=df, save_path=save_path)
             print(f'Saved {ticker_name} on path: {save_path}')
         else:
             raise ValueError(f'Save type {self.save_type} not handled!')
 
-    def _save_dataframe_on_minio(self, df: pd.DataFrame, save_path: str) -> None:
-        # convert dataset to CSV
-        csv_data = df.to_csv(index=False)
-
-        # sending data to MinIO
-        self.s3_client.put_object(
-            Bucket=self.bucket_name,
-            Key=save_path,
-            Body=csv_data.encode('utf-8')
-        )
-
-    def _ensure_bucket_exists(self, bucket_name):
-        try:
-            # check if the bucket exists by trying to list its contents
-            self.s3_client.head_bucket(Bucket=bucket_name)
-            print(f'Bucket "{bucket_name}" already exists.')
-        except ClientError as e:
-            error_code = e.response['Error']['Code']
-            if error_code == '404':
-                print(f'Bucket "{bucket_name}" does not exist. Creating a new one.')
-                self.s3_client.create_bucket(Bucket=bucket_name)
-                print(f'Bucket "{bucket_name}" created.')
-            else:
-                raise
 
     @staticmethod
     def _save_dataframe_locally(df: pd.DataFrame, save_path: str) -> None:
