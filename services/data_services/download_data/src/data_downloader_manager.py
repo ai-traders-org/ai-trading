@@ -1,13 +1,11 @@
 import os
 from typing import List, Dict
 
-import boto3
-from botocore.client import Config
-from botocore.exceptions import ClientError
 import pandas as pd
 
+from ai_trading_utils.minio_client import MinIOManager
+
 from .data_sources.data_downloader import DataDownloader
-from minio_manager import MinIOManager
 
 
 class DataDownloaderManager:
