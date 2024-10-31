@@ -1,6 +1,9 @@
 # Use Python image as base
 FROM python:3.10-slim
 
+# Install git and other necessary dependencies
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
