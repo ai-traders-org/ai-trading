@@ -1,4 +1,0 @@
-* get minio handling to other class
-* build model locally and on k8s
-* use spark to process data
-* use mlflow to save model
