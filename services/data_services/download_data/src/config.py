@@ -5,8 +5,8 @@ DOWNLOAD_DATA_CONFIG = {
         'yahoo': {'BABA', 'MSFT', 'NKE'},
     },
     'time_interval': {
-        'start_date': '2016-01-01',
-        'end_date': '2024-02-01',
+        'start_date': '2018-01-01',
+        'end_date': '2020-01-01',
     },
     'save_dir': os.path.join('resources', 'datasets'),
 }
