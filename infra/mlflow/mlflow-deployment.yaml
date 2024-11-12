@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mlflow
-          image: mlflow/mlflow:latest
+          image: ghcr.io/mlflow/mlflow:latest
           args:
             [
               "mlflow",
